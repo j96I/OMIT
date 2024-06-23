@@ -1,6 +1,7 @@
 from torchvision.transforms import ToTensor, Lambda
 from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
+import torchvision.models as models
 import matplotlib.pyplot as plt
 from torch import nn
 import numpy as np
@@ -8,12 +9,7 @@ import torch
 import os
 
 from utils.pytorch_utils import NeuralNetwork, test_loop, train_loop
-from utils.config import *
-
-
-def useGPU(tensor):
-    if torch.cuda.is_available():
-        tensor = tensor.to("cuda")
+from utils.config import *  # noqa: F403
 
 
 # Downloads and displays mnist dataset
@@ -118,14 +114,26 @@ if __name__ == "__main__":
     )
     test_dataloader = DataLoader(test_data, batch_size=64)
 
-    model = NeuralNetwork()
+    device = (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
+    model = NeuralNetwork().to(device)
 
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)  # noqa: F405
 
-    epochs = 10
-    for t in range(epochs):
+    for t in range(epochs):  # noqa: F405
         print(f"Epoch {t+1}\n-------------------------------")
-        train_loop(train_dataloader, model, loss_fn, optimizer)
-        test_loop(test_dataloader, model, loss_fn)
+        train_loop(train_dataloader, model, loss_fn, optimizer, device)
+        test_loop(test_dataloader, model, loss_fn, device)
+
+    torch.save(model, model_path)  # noqa: F405
+
+    # model = torch.load(model_path)  # noqa: F405
+    print(model)
+
     print("Done!")
