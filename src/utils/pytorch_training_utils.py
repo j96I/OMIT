@@ -1,13 +1,7 @@
-from torchvision.transforms import ToTensor, Lambda
-from torch.utils.data import DataLoader, Dataset
-from torchvision import datasets, transforms
-import matplotlib.pyplot as plt
 from torch import nn
-import numpy as np
 import torch
-import os
 
-from utils.config import *  # noqa: F403
+from utils.config import *
 
 
 class NeuralNetwork(nn.Module):
@@ -29,10 +23,11 @@ class NeuralNetwork(nn.Module):
 
 
 def train_loop(dataloader, model, loss_fn, optimizer, device):
-    size = len(dataloader.dataset)
     # Set the model to training mode - important for batch normalization and dropout layers
     # Unnecessary in this situation but added for best practices
     model.train()
+    size = len(dataloader.dataset)
+
     for batch, (X, y) in enumerate(dataloader):
         X, y = X.to(device), y.to(device)
 
@@ -46,16 +41,16 @@ def train_loop(dataloader, model, loss_fn, optimizer, device):
         optimizer.zero_grad()
 
         if batch % 100 == 0:
-            loss, current = loss.item(), batch * batch_size + len(X)  # noqa: F405
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            loss, current = loss.item(), batch * batch_size + len(X)
+            print(f'loss: {loss:>7f}  [{current:>5d}/{size:>5d}]')
 
 
 def test_loop(dataloader, model, loss_fn, device):
     # Set the model to evaluation mode - important for batch normalization and dropout layers
     # Unnecessary in this situation but added for best practices
+    model.eval()
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
-    model.eval()
     test_loss, correct = 0, 0
 
     # Evaluating the model with torch.no_grad() ensures that no gradients are computed during test mode
@@ -70,5 +65,5 @@ def test_loop(dataloader, model, loss_fn, device):
     test_loss /= num_batches
     correct /= size
     print(
-        f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n"
+        f'Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n'
     )
