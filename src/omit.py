@@ -75,12 +75,13 @@ def use_model():
             labels_map[pred[0].argmax(0).item()],
             labels_map[label_index.item()],
         )
-        print(f'Predicted: "{predicted}", Actual: "{actual}"')
+        prediction = f'Predicted: "{predicted}", Actual: "{actual}"'
+        print(prediction)
 
     img_rgb = revert_grayscale_to_rgb(img)
 
     plt.imshow(img_rgb)
-    plt.title(actual)
+    plt.title(prediction)
     plt.axis('off')
     plt.show()
 
