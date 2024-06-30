@@ -1,3 +1,4 @@
+from torchvision.transforms import ToTensor, Compose, Resize, Grayscale
 import matplotlib.pyplot as plt
 import torch
 
@@ -7,13 +8,19 @@ from utils.config import *
 
 
 def data_init():
-    dataset = CustomImageDataset(
-        annotations_file='src\data\custom\data.csv',
-        img_dir='src\data\custom',
-        transform=ToTensor(),
+    transform = Compose(
+        [Grayscale(num_output_channels=1), Resize((28, 28)), ToTensor()]
     )
+    dataset = CustomImageDataset(img_dir='data/custom_dataset', transform=transform)
 
-    train_data, test_data = torch.utils.data.random_split(dataset, [2000, 5000])
+    # Determine the sizes for train and test splits
+    dataset_size = len(dataset)
+    train_size = int(0.7 * dataset_size)  # 70% for training
+    test_size = dataset_size - train_size  # remaining 30% for testing
+
+    train_data, test_data = torch.utils.data.random_split(
+        dataset, [train_size, test_size]
+    )
 
     train_dataloader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True
@@ -52,7 +59,7 @@ def train_model():
 
 
 def use_model(img_index):
-    train_dataloader, test_dataloader = data_init()
+    _, test_dataloader = data_init()
 
     first_batch = next(iter(test_dataloader))
     image_tensor, label_index = first_batch[0][img_index], first_batch[1][img_index]
@@ -64,6 +71,10 @@ def use_model(img_index):
     with torch.no_grad():
         image_tensor = image_tensor.to(device)
         pred = model(image_tensor)
+
+        print('pred ', pred[0].argmax(0).item())
+        print('act ', label_index.item())
+
         predicted, actual = (
             labels_map[pred[0].argmax(0).item()],
             labels_map[label_index.item()],
@@ -76,5 +87,5 @@ def use_model(img_index):
     plt.show()
 
 
-train_model()
-use_model(0)
+# train_model()
+use_model(5)
