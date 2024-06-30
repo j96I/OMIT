@@ -13,17 +13,17 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # ---------------------------------------------------------------------
 
-# Import training data
-training_data = datasets.FashionMNIST(
-    root='data', train=True, download=True, transform=ToTensor()
-)
-train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
+# # Import training data
+# training_data = datasets.FashionMNIST(
+#     root='data', train=True, download=True, transform=ToTensor()
+# )
+# train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
 
-# Import testing data
-test_data = datasets.FashionMNIST(
-    root='data', train=False, download=True, transform=ToTensor()
-)
-test_dataloader = DataLoader(test_data, batch_size=64)
+# # Import testing data
+# test_data = datasets.FashionMNIST(
+#     root='data', train=False, download=True, transform=ToTensor()
+# )
+# test_dataloader = DataLoader(test_data, batch_size=64)
 
 labels_map = {
     0: 'T-Shirt',

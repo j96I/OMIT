@@ -1,13 +1,33 @@
 import matplotlib.pyplot as plt
 import torch
 
+from utils.pytorch_dataset_utils import CustomImageDataset
 from utils.pytorch_training_utils import NeuralNetwork, test_loop, train_loop
 from utils.config import *
+
+
+def data_init():
+    dataset = CustomImageDataset(
+        annotations_file='src\data\custom\data.csv',
+        img_dir='src\data\custom',
+        transform=ToTensor(),
+    )
+
+    train_data, test_data = torch.utils.data.random_split(dataset, [2000, 5000])
+
+    train_dataloader = DataLoader(
+        dataset=train_data, batch_size=batch_size, shuffle=True
+    )
+    test_dataloader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
+
+    return train_dataloader, test_dataloader
 
 
 def train_model():
     # Load in premade model
     # model = torch.load(model_path)
+
+    train_dataloader, test_dataloader = data_init()
 
     # Create model, set to GPU processing
     model = NeuralNetwork().to(device)
@@ -32,6 +52,8 @@ def train_model():
 
 
 def use_model(img_index):
+    train_dataloader, test_dataloader = data_init()
+
     first_batch = next(iter(test_dataloader))
     image_tensor, label_index = first_batch[0][img_index], first_batch[1][img_index]
     img = image_tensor.squeeze()
@@ -54,4 +76,5 @@ def use_model(img_index):
     plt.show()
 
 
+train_model()
 use_model(0)
