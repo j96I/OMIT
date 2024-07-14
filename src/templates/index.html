@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OMIT with HTMX-Flask</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    </head>
+    <body>
+        <h1>OMIT with HTMX-Flask</h1>
+        <form 
+            hx-encoding='multipart/form-data' 
+            hx-post='/upload'
+            _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
+            <input type='file' name='file'>
+            <button>
+                Upload
+            </button>
+            <progress id='progress' value='0' max='100'></progress>
+        </form>
+    </body>
+</html>
