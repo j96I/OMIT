@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OMIT with HTMX-Flask</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <script src="https://unpkg.com/htmx.org@1.6.1"></script>
     </head>
     <body>
         <div class="container">
@@ -12,12 +13,13 @@
             <form 
                 hx-encoding='multipart/form-data' 
                 hx-post='/upload'
-                _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
+                hx-target="#result">
                 <input type='file' name='file'>
                 <button>
                     Upload
                 </button>
-                <progress id='progress' value='0' max='100'></progress>
+                <a id="result"></a>
+                <img >
             </form>
         </div>
     </body>
