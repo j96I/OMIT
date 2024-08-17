@@ -1,19 +1,24 @@
+from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
+from random import randrange
 import torch
 
-from utils.pytorch_dataset_utils import CustomImageDataset
+from utils.pytorch_dataset_utils import CustomImageDataset, revert_grayscale_to_rgb
 from utils.pytorch_training_utils import NeuralNetwork, test_loop, train_loop
 from utils.config import *
 
 
 def data_init():
-    dataset = CustomImageDataset(
-        annotations_file='src\data\custom\data.csv',
-        img_dir='src\data\custom',
-        transform=ToTensor(),
-    )
+    dataset = CustomImageDataset(img_dir='data/custom_dataset')
 
-    train_data, test_data = torch.utils.data.random_split(dataset, [2000, 5000])
+    # Determine the sizes for train and test splits
+    dataset_size = len(dataset)
+    train_size = int(0.7 * dataset_size)  # 70% for training
+    test_size = dataset_size - train_size  # Remaining 30% for testing
+
+    train_data, test_data = torch.utils.data.random_split(
+        dataset, [train_size, test_size]
+    )
 
     train_dataloader = DataLoader(
         dataset=train_data, batch_size=batch_size, shuffle=True
@@ -23,14 +28,15 @@ def data_init():
     return train_dataloader, test_dataloader
 
 
-def train_model():
-    # Load in premade model
-    # model = torch.load(model_path)
-
+def train_model(retrain=False):
+    # Get testing and training data
     train_dataloader, test_dataloader = data_init()
 
-    # Create model, set to GPU processing
-    model = NeuralNetwork().to(device)
+    # Load in premade or Create new model
+    model = torch.load(model_path) if retrain else NeuralNetwork()
+
+    # Set to GPU processing
+    model.to(device)
 
     # Creates a criterion that measures the mean absolute error (MAE)
     loss_fn = torch.nn.CrossEntropyLoss()
@@ -47,12 +53,12 @@ def train_model():
 
     torch.save(model, model_path)
 
-    print(model)
     print('Done!')
 
 
-def use_model(img_index):
-    train_dataloader, test_dataloader = data_init()
+def use_model():
+    img_index = randrange(10)
+    _, test_dataloader = data_init()
 
     first_batch = next(iter(test_dataloader))
     image_tensor, label_index = first_batch[0][img_index], first_batch[1][img_index]
@@ -64,17 +70,21 @@ def use_model(img_index):
     with torch.no_grad():
         image_tensor = image_tensor.to(device)
         pred = model(image_tensor)
+
         predicted, actual = (
             labels_map[pred[0].argmax(0).item()],
             labels_map[label_index.item()],
         )
-        print(f'Predicted: "{predicted}", Actual: "{actual}"')
+        prediction = f'Predicted: "{predicted}", Actual: "{actual}"'
+        print(prediction)
 
-    plt.imshow(img.squeeze(), cmap='gray')
-    plt.title(actual)
+    img_rgb = revert_grayscale_to_rgb(img)
+
+    plt.imshow(img_rgb)
+    plt.title(prediction)
     plt.axis('off')
     plt.show()
 
 
-train_model()
-use_model(0)
+# train_model()
+use_model()

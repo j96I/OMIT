@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OMIT with HTMX-Flask</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1 id="form-title">OMIT with HTMX-Flask</h1>
+            <form 
+                hx-encoding='multipart/form-data' 
+                hx-post='/upload'
+                hx-target="#result">
+                <input type='file' name='file'>
+                <button>
+                    Upload
+                </button>
+                <a id="result"></a>
+                <img >
+            </form>
+        </div>
+    </body>
+</html>
