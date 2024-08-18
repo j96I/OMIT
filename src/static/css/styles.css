@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #f4f4f9;
+    background-color: #0c090e;
     color: #333;
     display: flex;
     justify-content: center;
@@ -13,7 +13,7 @@ body {
     max-width: 450px;
     width: 100%;
     padding: 20px;
-    background-color: #fff;
+    background-color: #d4ebf2;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -24,6 +24,25 @@ body {
     font-size: 24px;
 }
 
+#preview-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#upload-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-wrap: nowrap;
+    width: 7rem;
+}
+
+#upload-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 2rem;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -31,7 +50,7 @@ form {
     max-width: 400px;
     width: 100%;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -58,6 +77,8 @@ input[type='file']::file-selector-button:hover {
 
 button {
     padding: 12px;
+    align-items: center;
+    width: fit-content;
     background-color: #4CAF50;
     color: white;
     border: none;

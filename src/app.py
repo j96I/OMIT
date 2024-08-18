@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
@@ -13,8 +13,8 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    if 'file' not in request.files:
-        return "No file part"
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image uploaded'}), 400
     
     file = request.files['file']
     

@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OMIT with HTMX-Flask</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <script src="https://unpkg.com/htmx.org@1.6.1"></script>
-    </head>
-    <body>
-        <div class="container">
-            <h1 id="form-title">OMIT with HTMX-Flask</h1>
-            <form 
-                hx-encoding='multipart/form-data' 
-                hx-post='/upload'
-                hx-target="#result">
-                <input type='file' name='file'>
-                <button>
-                    Upload
-                </button>
-                <a id="result"></a>
-                <img >
-            </form>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMIT</title>
+  <link rel="stylesheet" href='static/css/styles.css'>
+  <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 id="form-title">OMIT Image Recognition</h1>
+
+    <form 
+      id="upload-form" 
+      method="POST" 
+      enctype="multipart/form-data" 
+      hx-post="/upload" 
+      hx-target="#preview-container"
+    >
+      <input 
+        id="image-input" 
+        type="file" 
+        name="image" 
+        accept="image/*" 
+        onchange="previewImage(event)">
+      
+      <div id="preview-container"></div>
+      
+      <div id="upload-container">
+        <div id="upload-options">
+          <button type="submit">Detect Mess</button>
         </div>
-    </body>
+  
+        <div id="upload-options">
+          <button type="submit">Detect Weather</button>
+        </div>
+  
+        <div id="upload-options">
+          <button type="submit">Detect Monkey</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script src='static/js/portal.js'></script>
+
+</body>
+
 </html>
