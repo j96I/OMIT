@@ -53,6 +53,7 @@ form {
 
 #result {
     text-wrap: wrap;
+    font-weight: bold;
 }
 
 input[type='file'] {

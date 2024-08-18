@@ -12,13 +12,7 @@ def index():
 def upload_file():
     file = request.files['file']
     
-    if file.filename == '':
-        return "No selected file"
-    
     if file:
-        filename = file.filename
-        print(file.content_type)
-        print(filename)
         return predict_image(file)
 
 if __name__ == '__main__':

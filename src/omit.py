@@ -57,7 +57,7 @@ def train_model(retrain=False):
 
     print('Done!')
 
-# Predefined image set
+# Predict via predefined image set
 def use_model():
     img_index = randrange(10)
     _, test_dataloader = data_init()
@@ -87,7 +87,7 @@ def use_model():
     plt.axis('off')
     plt.show()
 
-# Pass in image
+# Predict via image that is passed in
 def predict_image(jpeg_image):
     # Determine the device (GPU if available, otherwise CPU)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -115,5 +115,4 @@ def predict_image(jpeg_image):
     # Make the prediction
     with torch.no_grad():
         output = model(image_tensor)
-        # _, predicted = torch.max(output, 1)
         return labels_map[output[0].argmax(0).item()]
