@@ -3,6 +3,8 @@ function previewImage(event) {
   const output = document.createElement('img');
   const previewContainer = document.querySelector('#preview-container')
   
+  previewContainer.innerHTML = '';
+
   reader.onload = () => {
     output.src = reader.result;
     output.style.maxWidth = '375px';

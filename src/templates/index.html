@@ -10,29 +10,28 @@
 </head>
 
 <body>
-
-  <div class="container">
+  <div class="bg"></div>
+  <div class="main-container">
     <h1 id="form-title">OMIT Image Recognition</h1>
 
     <form 
       id="upload-form" 
-      method="POST" 
-      enctype="multipart/form-data" 
+      hx-encoding="multipart/form-data" 
       hx-post="/upload" 
-      hx-target="#preview-container"
+      hx-target="#result"
     >
       <input 
         id="image-input" 
         type="file" 
-        name="image" 
-        accept="image/*" 
+        name="file" 
         onchange="previewImage(event)">
       
       <div id="preview-container"></div>
       
-      <div id="upload-container">
+      <div class="upload-container">
         <div id="upload-options">
           <button type="submit">Detect Mess</button>
+          <a id="result"></a>
         </div>
   
         <div id="upload-options">
@@ -51,5 +50,4 @@
   <script src='static/js/portal.js'></script>
 
 </body>
-
 </html>

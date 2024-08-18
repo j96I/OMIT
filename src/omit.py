@@ -1,3 +1,5 @@
+from PIL import Image
+import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from random import randrange
@@ -55,7 +57,7 @@ def train_model(retrain=False):
 
     print('Done!')
 
-
+# Predefined image set
 def use_model():
     img_index = randrange(10)
     _, test_dataloader = data_init()
@@ -85,6 +87,33 @@ def use_model():
     plt.axis('off')
     plt.show()
 
-
-# train_model()
-use_model()
+# Pass in image
+def predict_image(jpeg_image):
+    # Determine the device (GPU if available, otherwise CPU)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    # Load the model and move it to the appropriate device
+    model = torch.load(model_path, map_location=device)
+    model.to(device)
+    model.eval()
+    
+    # Define the transformation pipeline
+    transform = transforms.Compose([
+        transforms.Grayscale(num_output_channels=1),
+        transforms.Resize((28, 28)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,), (0.5,))
+    ])
+    
+    # Open the image
+    image = Image.open(jpeg_image).convert('L')
+    image_tensor = transform(image).unsqueeze(0)
+    
+    # Move the tensor to the same device as the model
+    image_tensor = image_tensor.to(device)
+    
+    # Make the prediction
+    with torch.no_grad():
+        output = model(image_tensor)
+        # _, predicted = torch.max(output, 1)
+        return labels_map[output[0].argmax(0).item()]
