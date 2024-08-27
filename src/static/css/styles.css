@@ -43,14 +43,6 @@ form {
     margin-bottom: 10px;
 }
 
-#upload-options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-wrap: nowrap;
-    width: 7rem;
-}
-
 #result {
     text-wrap: wrap;
     font-weight: bold;
@@ -91,6 +83,20 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+#result {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+a {
+    border: none;
+    padding: 4px;
+    border-radius: 2px;
+    color: gainsboro;
+    background-color: rgb(128, 2, 112);
 }
 
 .bg {
