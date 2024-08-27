@@ -9,6 +9,7 @@ from utils.pytorch_dataset_utils import CustomImageDataset, revert_grayscale_to_
 from utils.pytorch_training_utils import NeuralNetwork, test_loop, train_loop
 from utils.config import *
 
+import os
 
 def data_init():
     dataset = CustomImageDataset(img_dir='data/custom_dataset')
@@ -89,11 +90,9 @@ def use_model():
 
 # Predict via image that is passed in
 def predict_image(jpeg_image):
-    # Determine the device (GPU if available, otherwise CPU)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     # Load the model and move it to the appropriate device
-    model = torch.load(model_path, map_location=device)
+    model = torch.load(model_path, map_location=device, weights_only=False)
     model.to(device)
     model.eval()
     
