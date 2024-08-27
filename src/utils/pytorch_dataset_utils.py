@@ -3,14 +3,13 @@ from torchvision import transforms
 from PIL import Image
 import os
 
-
 class CustomImageDataset(Dataset):
     def __init__(self, img_dir):
         self.img_dir = img_dir
         self.transform = transforms.Compose(
             [
                 transforms.Grayscale(num_output_channels=1),
-                transforms.Resize((28, 28)),  # Resize images to 28x28
+                transforms.Resize((28, 28)),
                 transforms.ToTensor(),
             ]
         )
@@ -42,11 +41,3 @@ class CustomImageDataset(Dataset):
             image = self.transform(image)
 
         return image, label
-
-
-def revert_grayscale_to_rgb(image_tensor):
-    # Convert the tensor to a PIL Image
-    image_pil = transforms.ToPILImage()(image_tensor)
-    # Convert the PIL Image to RGB
-    image_rgb = image_pil.convert('RGB')
-    return image_rgb

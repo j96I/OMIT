@@ -1,6 +1,6 @@
 import torch
 
-model_path = 'omit_model.pth'
+model_path = 'data/omit_model.pth'
 training_data_path = 'data/custom_dataset'
 
 learning_rate = 1e-3

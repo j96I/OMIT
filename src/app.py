@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-
 from omit import predict_image
 
 app = Flask(__name__)

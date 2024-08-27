@@ -1,15 +1,12 @@
-from PIL import Image
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
-from random import randrange
+from PIL import Image
 import torch
 
-from utils.pytorch_dataset_utils import CustomImageDataset, revert_grayscale_to_rgb
 from utils.pytorch_training_utils import NeuralNetwork, test_loop, train_loop
+from utils.pytorch_dataset_utils import CustomImageDataset
 from utils.config import *
 
-import os
 
 def data_init():
     dataset = CustomImageDataset(img_dir='data/custom_dataset')
@@ -56,39 +53,9 @@ def train_model(retrain=False):
 
     torch.save(model, model_path)
 
-    print('Done!')
+    print('Training Complete!')
 
-# Predict via predefined image set
-def use_model():
-    img_index = randrange(10)
-    _, test_dataloader = data_init()
 
-    first_batch = next(iter(test_dataloader))
-    image_tensor, label_index = first_batch[0][img_index], first_batch[1][img_index]
-    img = image_tensor.squeeze()
-
-    model = torch.load(model_path)
-    model.eval()
-
-    with torch.no_grad():
-        image_tensor = image_tensor.to(device)
-        pred = model(image_tensor)
-
-        predicted, actual = (
-            labels_map[pred[0].argmax(0).item()],
-            labels_map[label_index.item()],
-        )
-        prediction = f'Predicted: "{predicted}", Actual: "{actual}"'
-        print(prediction)
-
-    img_rgb = revert_grayscale_to_rgb(img)
-
-    plt.imshow(img_rgb)
-    plt.title(prediction)
-    plt.axis('off')
-    plt.show()
-
-# Predict via image that is passed in
 def predict_image(jpeg_image):
     
     # Load the model and move it to the appropriate device

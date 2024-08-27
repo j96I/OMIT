@@ -1,8 +1,8 @@
+import sklearn as sk
+import pandas as pd
+import platform
 import torch
 import sys
-import platform
-import pandas as pd
-import sklearn as sk
 
 
 def setup_validate():
