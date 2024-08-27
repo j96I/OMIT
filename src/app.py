@@ -12,23 +12,9 @@ def index():
 def upload_file():
     file = request.files['file']
     
-    # r1 - asyncio.to_thread(requests.get, 'API endpoint')
-
-    # results - await [r1, r2]
-
-    # call api - response in the form of  {tags: ['asdf', 'zxcv]}
-
-    # for each item in response array massage into list - format of <li>data</li>
-
-    # concat outputs - format: <li>tag1</li><li>tag2</li>
-
-    # wrap with ul - format: <ul><li>tag1</li><li>tag2</li></ul>
-
-
     if file:
-        data = [predict_image(file), 'item2', 'item3']
-        list_items = ''.join(f'<a>{item}</a>' for item in data)
-        return list_items
+        tag_list = [predict_image(file), 'item2', 'item3']
+        return ''.join(f'<a>{tag}</a>' for tag in tag_list)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,7 +1,7 @@
 function previewImage(event) {
   const reader = new FileReader();
   const output = document.createElement('img');
-  const previewContainer = document.querySelector('#preview-container')
+  const previewContainer = document.querySelector('#image-preview')
   
   previewContainer.innerHTML = '';
 
