@@ -20,26 +20,20 @@
       hx-post="/upload" 
       hx-target="#result"
     >
-      <input 
-        id="image-input" 
-        type="file" 
-        name="file" 
-        onchange="previewImage(event)">
-      
+      <div class="upload-container">
+        <input 
+          id="image-input" 
+          type="file" 
+          name="file" 
+          onchange="previewImage(event)">
+        <button type="submit">Scan</button>
+      </div>
+
       <div id="preview-container"></div>
       
       <div class="upload-container">
         <div id="upload-options">
-          <button type="submit">Detect Mess</button>
           <a id="result"></a>
-        </div>
-  
-        <div id="upload-options">
-          <button type="submit">Detect Weather</button>
-        </div>
-  
-        <div id="upload-options">
-          <button type="submit">Detect Monkey</button>
         </div>
       </div>
 
