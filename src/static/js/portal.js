@@ -1,15 +1,17 @@
 function previewImage(event) {
   const reader = new FileReader();
   const output = document.createElement('img');
-  const previewContainer = document.querySelector('#image-preview')
+  const tagDisplay = document.querySelector('#tag-display')
+  const imagePreview = document.querySelector('#image-preview')
   
-  previewContainer.innerHTML = '';
+  tagDisplay.innerHTML = '';
+  imagePreview.innerHTML = '';
 
   reader.onload = () => {
     output.src = reader.result;
     output.style.maxWidth = '375px';
     output.style.maxHeight = '375px';
-    previewContainer.appendChild(output);
+    imagePreview.appendChild(output);
   };
   reader.readAsDataURL(event.target.files[0]);
 }
