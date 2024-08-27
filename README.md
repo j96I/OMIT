@@ -9,7 +9,7 @@
 ## Running application
 
 ```bash
-python omit.py
+python app.py
 ```
 
 ## Installation
