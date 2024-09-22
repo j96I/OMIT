@@ -83,5 +83,3 @@ def predict_image(jpeg_image):
         output = model(image_tensor)
         return labels_map[output[0].argmax(0).item()]
     
-
-train_model()
