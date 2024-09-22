@@ -66,7 +66,7 @@ def predict_image(jpeg_image):
     # Define the transformation pipeline
     transform = transforms.Compose([
         transforms.Grayscale(num_output_channels=1),
-        transforms.Resize((28, 28)),
+        transforms.Resize((100, 100)),
         transforms.ToTensor(),
         transforms.Normalize((0.5,), (0.5,))
     ])

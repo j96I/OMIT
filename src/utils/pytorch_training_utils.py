@@ -7,17 +7,38 @@ from utils.config import *
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
+
+        # Convolutional layer 1
+        self.conv1 = nn.Conv2d(
+            in_channels=1, out_channels=16, kernel_size=3, stride=1, padding=1
+        )
+
+        # Max pooling layer to reduce the size after convolutions
+        self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
+
+        # Convolutional layer 2
+        self.conv2 = nn.Conv2d(
+            in_channels=16, out_channels=64, kernel_size=3, stride=1, padding=1
+        )
+
         self.flatten = nn.Flatten()
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(28 * 28, 512),
-            nn.ReLU(),
+            nn.Linear(64 * 25 * 25, 512),
+            nn.LeakyReLU(),
             nn.Linear(512, 512),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.Linear(512, 2),
         )
 
     def forward(self, x):
+        # Pass through convolutional layers with ReLU activation and pooling
+        x = self.pool(nn.LeakyReLU()(self.conv1(x)))
+        x = self.pool(nn.LeakyReLU()(self.conv2(x)))
+
+        # Flatten the output from conv layers before feeding into fully connected layers
         x = self.flatten(x)
+
+        # Pass through the fully connected layers
         logits = self.linear_relu_stack(x)
         return logits
 

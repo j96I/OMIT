@@ -9,7 +9,7 @@ class CustomImageDataset(Dataset):
         self.transform = transforms.Compose(
             [
                 transforms.Grayscale(num_output_channels=1),
-                transforms.Resize((28, 28)),
+                transforms.Resize((100, 100)),
                 transforms.ToTensor(),
             ]
         )
