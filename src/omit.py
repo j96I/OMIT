@@ -8,8 +8,8 @@ from utils.pytorch_dataset_utils import CustomImageDataset
 from utils.config import *
 
 
-def data_init():
-    dataset = CustomImageDataset(img_dir='data/custom_dataset')
+def data_init(img_dir):
+    dataset = CustomImageDataset(img_dir)
 
     # Determine the sizes for train and test splits
     dataset_size = len(dataset)
@@ -28,9 +28,9 @@ def data_init():
     return train_dataloader, test_dataloader
 
 
-def train_model(retrain=False):
+def train_model(retrain=False,img_dir='data/custom_dataset'):
     # Get testing and training data
-    train_dataloader, test_dataloader = data_init()
+    train_dataloader, test_dataloader = data_init(img_dir)
 
     # Load in premade or Create new model
     model = torch.load(model_path) if retrain else NeuralNetwork()

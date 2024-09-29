@@ -7,7 +7,7 @@ import sys
 
 def setup_validate():
     has_gpu = torch.cuda.is_available()
-    has_mps = getattr(torch, 'has_mps', False)
+    has_mps = torch.backends.mps.is_built()
     device = (
         'mps'
         if getattr(torch, str(has_mps), False)
