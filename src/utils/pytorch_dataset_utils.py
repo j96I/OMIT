@@ -31,7 +31,7 @@ class CustomImageDataset(Dataset):
     
           if '.git' in image_folders_list:
               image_folders_list.remove('.git')  
-              
+
         else:
           print(f"ERROR - couldnt find the input data on path: {self.img_dir}")
           exit(1)

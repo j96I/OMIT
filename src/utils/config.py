@@ -7,8 +7,3 @@ learning_rate = 1e-3
 epochs = 100
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-labels_map = {
-    0: 'Clean',
-    1: 'Messy',
-}

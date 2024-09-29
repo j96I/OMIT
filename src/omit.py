@@ -2,6 +2,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from PIL import Image
 import torch
+import os
 
 from utils.pytorch_training_utils import NeuralNetwork, test_loop, train_loop
 from utils.pytorch_dataset_utils import CustomImageDataset
@@ -32,7 +33,7 @@ def data_init(img_dir):
     return train_dataloader, test_dataloader, batch_size
 
 
-def train_model(retrain=False, img_dir='data/custom_dataset'):
+def train_model(retrain=False, img_dir=training_data_path):
     # Get testing and training data
     train_dataloader, test_dataloader, batch_size = data_init(img_dir)
 
@@ -60,7 +61,11 @@ def train_model(retrain=False, img_dir='data/custom_dataset'):
     print('Training Complete!')
 
 
-def predict_image(jpeg_image):
+def predict_image(jpeg_image, img_dir=training_data_path):
+
+    if (os.path.isdir(training_data_path)):
+        # first look for the training data path as it was passed.
+        image_folders_list = sorted(os.listdir(img_dir))
     
     # Load the model and move it to the appropriate device
     model = torch.load(model_path, map_location=device, weights_only=False)
@@ -85,5 +90,5 @@ def predict_image(jpeg_image):
     # Make the prediction
     with torch.no_grad():
         output = model(image_tensor)
-        return labels_map[output[0].argmax(0).item()]
+        return image_folders_list[output[0].argmax(0).item()]
     
