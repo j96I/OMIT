@@ -28,7 +28,7 @@ def data_init(img_dir):
     return train_dataloader, test_dataloader
 
 
-def train_model(retrain=False,img_dir='data/custom_dataset'):
+def train_model(retrain=False, img_dir='data/custom_dataset'):
     # Get testing and training data
     train_dataloader, test_dataloader = data_init(img_dir)
 

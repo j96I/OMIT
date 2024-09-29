@@ -21,14 +21,17 @@ class CustomImageDataset(Dataset):
     def _prepare_dataset(self):
 
         # if the images are not in the expected directory, they might be one level up.
-        if (os.path.isdir(self.img_dir) == False):
+        if (os.path.isdir(self.img_dir) is False):
             self.img_dir = os.path.join('..', self.img_dir)
         
         # use the image folder names as labels, but ignore the directory called .git!
         if (os.path.isdir(self.img_dir)):
           # first look for the training data path as it was passed.
           image_folders_list = sorted(os.listdir(self.img_dir))
-          image_folders_list.remove('.git')  
+    
+          if '.git' in image_folders_list:
+              image_folders_list.remove('.git')  
+              
         else:
           print(f"ERROR - couldnt find the input data on path: {self.img_dir}")
           exit(1)
