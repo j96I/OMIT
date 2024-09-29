@@ -4,8 +4,8 @@ model_path = 'data/omit_model.pth'
 training_data_path = 'data/custom_dataset'
 
 learning_rate = 1e-3
-batch_size = 64
-epochs = 5
+batch_size = 50
+epochs = 100
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 

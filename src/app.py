@@ -23,8 +23,12 @@ def upload_file():
     # data.extend(res)
 
     if file:
-        tag_list = [predict_image(file), 'item2', 'item3']
-        return ''.join(f'<a>{tag}</a>' for tag in tag_list)
+        return f'<a>{predict_image(file)}</a>'
+    
+        # tag_list = [predict_image(file), 'item2', 'item3']
+        # return ''.join(f'<a>{tag}</a>' for tag in tag_list)
+
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
