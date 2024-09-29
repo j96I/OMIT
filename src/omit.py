@@ -13,8 +13,12 @@ def data_init(img_dir):
 
     # Determine the sizes for train and test splits
     dataset_size = len(dataset)
-    train_size = int(0.7 * dataset_size)  # 70% for training
-    test_size = dataset_size - train_size  # Remaining 30% for testing
+
+    # Batch size relative to dataset
+    batch_size = round(dataset_size * 0.02)
+
+    train_size = int(0.8 * dataset_size)  # 80% for training
+    test_size = dataset_size - train_size  # Remaining 20% for testing
 
     train_data, test_data = torch.utils.data.random_split(
         dataset, [train_size, test_size]
@@ -25,12 +29,12 @@ def data_init(img_dir):
     )
     test_dataloader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-    return train_dataloader, test_dataloader
+    return train_dataloader, test_dataloader, batch_size
 
 
 def train_model(retrain=False, img_dir='data/custom_dataset'):
     # Get testing and training data
-    train_dataloader, test_dataloader = data_init(img_dir)
+    train_dataloader, test_dataloader, batch_size = data_init(img_dir)
 
     # Load in premade or Create new model
     model = torch.load(model_path) if retrain else NeuralNetwork()
@@ -48,7 +52,7 @@ def train_model(retrain=False, img_dir='data/custom_dataset'):
     # Per epoch, refine model
     for t in range(epochs):
         print(f'Epoch {t+1}\n-------------------------------')
-        train_loop(train_dataloader, model, loss_fn, optimizer, device)
+        train_loop(train_dataloader, model, loss_fn, optimizer, device, batch_size)
         test_loop(test_dataloader, model, loss_fn, device)
 
     torch.save(model, model_path)

@@ -43,7 +43,7 @@ class NeuralNetwork(nn.Module):
         return logits
 
 
-def train_loop(dataloader, model, loss_fn, optimizer, device):
+def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size):
     # Set the model to training mode - important for batch normalization and dropout layers
     # Unnecessary in this situation but added for best practices
     model.train()
