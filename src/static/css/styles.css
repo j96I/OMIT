@@ -1,61 +1,61 @@
 body {
-    height: 100vh;
     display: flex;
     color: #333;
-    align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
+    padding-top: 2rem;
 }
 
 .main-container {
     width: 100%;
-    padding: 20px;
-    max-width: 450px;
-    border-radius: 8px;
+    padding-top: 5rem;
+    padding: 2rem;
+    max-width:43rem;
+    border-radius: 1rem;
     text-align: center;
-    background-color: #c3cccf;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(195, 204, 207, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 form {
     display: flex;
-    width: 100%;
-    padding: 20px;
-    max-width: 400px;
-    border-radius: 8px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 1rem;
     flex-direction: column;
     background-color: #eee8e8;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .upload-container {
     gap: 0.8rem;
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(5, auto);
 }
 
 #form-title {
-    font-size: 24px;
+    font-size: 2rem;
 }
 
 #image-preview {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    filter: blur(15px);  /* present the image blurred by default, for safety */
 }
 
 input[type='file'] {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
     border: 1px solid #ccc;
 }
 
 input[type='file']::file-selector-button {
     border: none;
-    padding: 10px;
+    padding: 0.5rem;
     color: white;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 0.5rem;
     background-color: #383838;
 }
 
@@ -65,12 +65,12 @@ input[type='file']::file-selector-button:hover {
 
 button {
     border: none;
-    padding: 12px;
+    padding: 0.7rem;
     color: white;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
     width: fit-content;
-    border-radius: 4px;
+    border-radius: 0.3rem;
     align-items: center;
     background-color: #4CAF50;
     transition: background-color 0.3s ease;
@@ -91,23 +91,12 @@ button:hover {
     justify-content: center;
 }
 
-a {
-    border: none;
-    padding-top: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 1rem;
-    padding-bottom: 2px;
-    color: gainsboro;
-    background-color: rgb(128, 2, 112);
-}
-
 .bg {
-    top: 10;
-    left: 20;
+    top: -10%;
+    left: -40%;
     z-index: -1;
-    width: 220%;
-    height: 200%;
+    width: 170%;
+    height: 170%;
     position: fixed;
     filter: blur(12px);
     background-size: cover;

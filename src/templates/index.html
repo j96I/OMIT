@@ -30,8 +30,11 @@
           type="file" 
           name="file" 
           onchange="previewImage(event)">
-        <button type="submit">Scan</button>
-      </div>
+          <button type="submit">Scan</button>
+          <button onclick="blinkPreview(event)">Blink</button>
+          <button onclick="showPreview(event)">Show</button>
+          <button onclick="blurPreview(event)">Blur</button>
+        </div>
 
       <div id="image-preview"></div>
       
