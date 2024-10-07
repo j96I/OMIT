@@ -28,9 +28,10 @@ form {
 }
 
 .upload-container {
+    margin-left: 5rem;
     gap: 0.8rem;
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(2, auto);
 }
 
 #form-title {
@@ -38,8 +39,8 @@ form {
 }
 
 #image-preview {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1rem;
     filter: blur(15px);  /* present the image blurred by default, for safety */
 }
 
@@ -78,6 +79,22 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.feature-buttons {
+    background-color: #7b867c;
+}
+
+.feature-buttons:hover {
+    background-color: #505751;
+}
+
+.feature-button-container {
+    padding-top: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
 }
 
 #tag-display {
