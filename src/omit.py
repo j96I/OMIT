@@ -1,6 +1,9 @@
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
+from datetime import datetime
 from PIL import Image
+import pandas as pd
 import torch
 import os
 
@@ -50,14 +53,50 @@ def train_model(retrain=False, img_dir=training_data_path):
     # & will update the parameters based on the computed gradients
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
+    start_time = datetime.now()
+    results = []
+
     # Per epoch, refine model
     for t in range(epochs):
         print(f'Epoch {t+1}\n-------------------------------')
-        train_loop(train_dataloader, model, loss_fn, optimizer, device, batch_size)
-        test_loop(test_dataloader, model, loss_fn, device)
+        elapsed_timestamp = train_loop(train_dataloader, model, loss_fn, optimizer, device, batch_size, start_time)
+        accuracy, avg_loss = test_loop(test_dataloader, model, loss_fn, device)
+
+        result = {'Accuracy %': accuracy*100, 'Avg Loss': avg_loss, 'Elapsed timestamp': elapsed_timestamp}
+        results.append(result)
+
+    training_stats = pd.DataFrame(results)
+
+    # Plot the Accuracy % over time
+    plt.figure(figsize=(10, 6))
+    plt.xticks(rotation=45)
+    plt.plot(
+        training_stats['Elapsed timestamp'],
+        training_stats['Accuracy %'],
+        marker='o', linestyle='-', color='b', label='Accuracy')
+
+    # Title & labels
+    plt.title('Model Accuracy over Time')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Accuracy (%)')
+
+    # Configuration label
+    config_text = (
+        f"Accuracy: {training_stats['Accuracy %'].iloc[-1]:>0.1f}%\n\n"
+        f"Epochs: {epochs}\n"
+        f"Sample size: {image_sample_percentage}%\n"
+        f"Learning rate: {learning_rate:.1e}")
+    plt.text(1.05, 0.5, config_text, transform=plt.gca().transAxes, fontsize=12, verticalalignment='center', bbox=dict(facecolor='white', alpha=0.5))
+
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    end_time = datetime.now().strftime('%d-%m-%Y %H-%M')
+    plt.savefig(f'data/Model_AoT {end_time}.jpg')
+
 
     torch.save(model, model_path)
-
     print('Training Complete!')
 
 

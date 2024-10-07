@@ -1,3 +1,4 @@
+from datetime import datetime
 from torch import nn
 import torch
 
@@ -43,7 +44,7 @@ class NeuralNetwork(nn.Module):
         return logits
 
 
-def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size):
+def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size, start_time):
     # Set the model to training mode - important for batch normalization and dropout layers
     # Unnecessary in this situation but added for best practices
     model.train()
@@ -64,6 +65,25 @@ def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size):
         if batch % 100 == 0:
             loss, current = loss.item(), batch * batch_size + len(X)
             print(f'loss: {loss:>7f}  [{current:>5d}/{size:>5d}]')
+    
+    time_components = []
+    elapsed_time = datetime.now() - start_time
+
+    days = elapsed_time.days
+    hours, remainder = divmod(elapsed_time.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    
+    if days > 0:
+        time_components.append(f"{days} days")
+    if hours > 0:
+        time_components.append(f"{hours} hours")
+    if minutes > 0:
+        time_components.append(f"{minutes} minutes")
+    if seconds > 0:
+        time_components.append(f"{seconds} seconds")
+
+    formatted_difference = ', '.join(time_components)
+    return formatted_difference
 
 
 def test_loop(dataloader, model, loss_fn, device):
@@ -88,3 +108,4 @@ def test_loop(dataloader, model, loss_fn, device):
     print(
         f'Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n'
     )
+    return correct, test_loss

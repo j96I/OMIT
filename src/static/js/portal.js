@@ -12,6 +12,7 @@ function previewImage(event) {
     output.src = reader.result;
     output.style.maxWidth = '30rem';
     output.style.maxHeight = '30rem';
+    imagePreview.style.filter = "blur(15px)";
     imagePreview.appendChild(output);
   };
   reader.readAsDataURL(event.target.files[0]);
