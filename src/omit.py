@@ -16,7 +16,7 @@ def data_init(img_dir):
     dataset_size = len(dataset)
 
     # Batch size relative to dataset
-    batch_size = round(dataset_size * 0.02)
+    batch_size = round(dataset_size * (image_sample_percentage/100))
 
     train_size = int(0.8 * dataset_size)  # 80% for training
     test_size = dataset_size - train_size  # Remaining 20% for testing
