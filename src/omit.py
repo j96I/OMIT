@@ -59,10 +59,15 @@ def train_model(retrain=False, img_dir=training_data_path):
     # Per epoch, refine model
     for t in range(epochs):
         print(f'Epoch {t+1}\n-------------------------------')
-        elapsed_timestamp = train_loop(train_dataloader, model, loss_fn, optimizer, device, batch_size, start_time)
+        elapsed_timestamp, numeric_elapsed_time = train_loop(train_dataloader, model, loss_fn, optimizer, device, batch_size, start_time)
         accuracy, avg_loss = test_loop(test_dataloader, model, loss_fn, device)
 
-        result = {'Accuracy %': accuracy*100, 'Avg Loss': avg_loss, 'Elapsed timestamp': elapsed_timestamp}
+        result = {
+            'Accuracy %': accuracy*100, 
+            'Avg Loss': avg_loss, 
+            'Elapsed timestamp': elapsed_timestamp,
+            'Elapsed seconds': numeric_elapsed_time
+        }
         results.append(result)
 
     training_stats = pd.DataFrame(results)
@@ -71,18 +76,32 @@ def train_model(retrain=False, img_dir=training_data_path):
     plt.figure(figsize=(10, 6))
     plt.xticks(rotation=45)
     plt.plot(
-        training_stats['Elapsed timestamp'],
+        training_stats['Elapsed seconds'],
         training_stats['Accuracy %'],
         marker='o', linestyle='-', color='b', label='Accuracy')
+    
+    # Select every 5th value for the labels
+    tick_positions = list(training_stats['Elapsed seconds'][::5])
+    tick_labels = list(training_stats['Elapsed timestamp'][::5])
 
+    # Ensure the last point is labeled, if it is not already included
+    if training_stats['Elapsed seconds'].iloc[-1] not in tick_positions:
+        tick_positions.append(training_stats['Elapsed seconds'].iloc[-1])
+        tick_labels.append(training_stats['Elapsed timestamp'].iloc[-1])
+
+    plt.xticks(
+        ticks=tick_positions,
+        labels=tick_labels)
+    
     # Title & labels
     plt.title('Model Accuracy over Time')
-    plt.xlabel('Time (s)')
+    plt.xlabel('Elapsed Time')
     plt.ylabel('Accuracy (%)')
 
     # Configuration label
     config_text = (
-        f"Accuracy: {training_stats['Accuracy %'].iloc[-1]:>0.1f}%\n\n"
+        f"Final accuracy: {training_stats['Accuracy %'].iloc[-1]:>0.1f}%\n"
+        f"Max accuracy: {training_stats['Accuracy %'].max():>0.1f}%\n\n"
         f"Epochs: {epochs}\n"
         f"Sample size: {image_sample_percentage}%\n"
         f"Learning rate: {learning_rate:.1e}")

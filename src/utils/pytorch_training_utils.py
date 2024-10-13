@@ -68,6 +68,7 @@ def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size, start_
     
     time_components = []
     elapsed_time = datetime.now() - start_time
+    numeric_elapsed_time = elapsed_time.total_seconds()
 
     days = elapsed_time.days
     hours, remainder = divmod(elapsed_time.seconds, 3600)
@@ -76,14 +77,14 @@ def train_loop(dataloader, model, loss_fn, optimizer, device, batch_size, start_
     if days > 0:
         time_components.append(f"{days} days")
     if hours > 0:
-        time_components.append(f"{hours} hours")
+        time_components.append(f"{hours} hrs")
     if minutes > 0:
-        time_components.append(f"{minutes} minutes")
+        time_components.append(f"{minutes} mins")
     if seconds > 0:
-        time_components.append(f"{seconds} seconds")
+        time_components.append(f"{seconds} secs")
 
     formatted_difference = ', '.join(time_components)
-    return formatted_difference
+    return formatted_difference, numeric_elapsed_time
 
 
 def test_loop(dataloader, model, loss_fn, device):
